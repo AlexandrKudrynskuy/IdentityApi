@@ -1,0 +1,54 @@
+﻿@* <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+        $().ready(function () {
+            alert("asasa");        
+        });
+  </script> *@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <form>
+        <input type="text" placeholder="Імя" id="Name" />
+        <input type="password" placeholder="Пароль" id="Password" />
+        <input type="email" placeholder="Пошта" id="EMail" />
+        <input type="submit" value="Зареєструватися" id="Register" />
+    </form>
+    <script>
+        $().ready(function () {
+
+            $("#Register").click(function (e) {
+                e.preventDefault();
+                var User = {
+                    Name: $("#Name").val(),
+                    Password: $("#Password").val(),
+                    EMail: $("#EMail").val()
+                }
+                console.log(User.Name + User.Password + User.EMail);
+                $.ajax({
+                    type: "POST",
+                    url: "/Api/AutoritationApi/registration",
+                    data: JSON.stringify(User),
+                    contentType: "application/json;",
+                    success: function (result, status, xhr) {
+                        alert(status);
+                    },
+
+                    error: function (xhr, status, error) {
+                        alert(status);
+                    }
+                });
+            });
+
+        });
+    </script>
+</body>
+
+</html>

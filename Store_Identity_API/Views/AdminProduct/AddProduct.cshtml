@@ -1,0 +1,64 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <form>
+        <input type="text" placeholder="Назва продукту" id="Name" />
+        <input type="text" placeholder="Бренд" id="Brand" />
+        <input type="text" placeholder="Категорія" id="Category" />
+        <input type="text" placeholder="Ціна" id="Price" />
+    
+
+        <input type="submit" value="Додати продукт" id="Add" />
+
+    </form>
+    <div id="Responce"></div>
+    <script>
+        $().ready(function () {
+   
+            $("#Add").click(function (e) {
+                var token = localStorage.getItem("jwt");
+                if (token) {
+                    e.preventDefault();
+                    var Product = {
+                        Name: $("#Name").val(),
+                        Brand: $("#Brand").val(),
+                        Category: $("#Category").val(),
+                        Price: $("#Price").val(),
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "/Api/AdminProductApi/post",
+                        data: JSON.stringify(Product),
+                        contentType: "application/json;",
+                        headers: {
+                            "Authorization": "Bearer" + token
+                        },
+                        success: function (result, status, xhr) {
+                            alert("Ok");
+                        },
+
+                        error: function (xhr, status, error) {
+                            alert(xhr.status);
+                        }
+
+                    });
+                }
+                else { 
+                    alert("Додавати продукти може тільки адмін");
+                }
+            });
+
+        });
+    </script>
+</body>
+
+</html>

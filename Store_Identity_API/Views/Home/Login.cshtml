@@ -1,0 +1,63 @@
+﻿@* <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+    $().ready(function () {
+        alert("asasa");
+    });
+</script> *@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <form>
+        <input type="text" placeholder="Імя" id="Name" />
+        <input type="password" placeholder="Пароль" id="Password" />
+        <input type="submit" value="увійти" id="Login" />
+        <input type="button" value="показати пароль" id="ShowPassword" />
+    </form>
+    <div id="Responce"></div>
+    <script>
+        $().ready(function () {
+
+            $("#ShowPassword").click(function () {
+                $("#Password").prop("type", "text");
+            });
+
+            $("#Login").click(function (e) {
+                e.preventDefault();
+                var User = {
+                    Name: $("#Name").val(),
+                    Password: $("#Password").val(),
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "/Api/AutoritationApi/login",
+                    data: JSON.stringify(User),
+                    contentType: "application/json;",
+                    success: function (result, status, xhr) {
+                        alert("Ok");
+                        localStorage.setItem("jwt", result.token + ";expires= " + new Date(result.expiration).toUTCString() + "; path=/");
+                    },
+
+                    error: function (xhr, status, error) {
+                        alert("Prob");
+                        if (xhr.status == 401) {
+                            $("#Responce").show();
+                            $("#Responce").append("Неправильний логін або пароль");
+                        }
+                    }
+
+                });
+            });
+
+        });
+    </script>
+</body>
+
+</html>
