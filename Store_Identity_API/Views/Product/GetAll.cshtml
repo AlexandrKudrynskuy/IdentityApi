@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div class="row"></div>
+    @Html.Partial("temp");
+
+    <script>
+        $().ready(function () {
+            var token = localStorage.getItem("jwt");
+            debugger
+
+            if (token) 
+            {
+                $.ajax({
+                    type: "Get",
+                    url: "/Api/ProductApi",
+                    dataType: 'json',
+                    headers: {
+                                "Authorization": "Bearer " + token
+                             },
+                 success: function (product, status, xhr) {
+
+
+                        for (var pr of product) {
+                            var html = "<div class=\"col-12 col-md-3 \">\n        <div class=\"card\">\n            <div class=\"card-body\">\n                <h5 class=\"card-title\"> Модель" + pr.name + "</h5>\n                <p class=\"card-text\">Бренд " + pr.brand.name + "</p>\n                <p class=\"card-text\"> Категорія " + pr.category.name + "</p>\n                <p> Ціна " + pr.price + " </p>\n                <p> Стара ціна" + pr.oldPrice + "</p>\n                <img src=" + pr.photo + " class=\"card- img - top\" style=\"height: 20vh\">\n   <p class=\"Count\"> Залишилось " + pr.count + "</p>\n      <p> <input type=\"button\" class=\"addToCard\" value=\"Додати в корзину\" tag=" + pr.id + "></p>\n         </div>\n        </div>\n    </div>"
+                            $(".row").append(html);
+                        }
+
+                        $(".addToCard").click(function () {
+                            debugger
+
+                            var id = $(this).attr("tag");
+
+                            $.ajax({
+                                type: "Post",
+                                url: "/Api/CardApi/AddToCard",
+                                data: JSON.stringify(id),
+                                contentType: "application/json;",
+                                headers: {
+                                    "Authorization": "Bearer " + token
+                                },
+                                success: function (product, status, xhr) {
+                                    alert("Ok");
+                                },
+                                error: function (xhr, status, error) {
+                                    alert("Prob");
+                                }
+
+                            });
+
+                        });
+
+                    },
+
+                    error: function (xhr, status, error) {
+                        alert("Prob");
+
+                    }
+
+                });
+            
+            }
+            
+        });
+
+    </script>
+</body>
+
+</html>

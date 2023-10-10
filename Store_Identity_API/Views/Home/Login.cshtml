@@ -42,7 +42,7 @@
                     contentType: "application/json;",
                     success: function (result, status, xhr) {
                         alert("Ok");
-                        localStorage.setItem("jwt", result.token + ";expires= " + new Date(result.expiration).toUTCString() + "; path=/");
+                        localStorage.setItem("jwt", result.token);
                     },
 
                     error: function (xhr, status, error) {

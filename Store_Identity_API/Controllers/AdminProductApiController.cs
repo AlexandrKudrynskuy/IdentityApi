@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DLL.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Store_Identity_API.Context;
 //using Store_Identity_API.Migrations;
 using Store_Identity_API.Models;
 
@@ -11,22 +12,23 @@ namespace Store_Identity_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
 
     public class AdminProductApiController : ControllerBase
     {
-        private readonly Store_Identity_APIContext _context;
+        private readonly DLL.Store_Identity_APIContext _context;
+        private readonly UserManager<DLL.Models.User> _userManager;
 
-        public AdminProductApiController(Store_Identity_APIContext context)
+        public AdminProductApiController(DLL.Store_Identity_APIContext context, UserManager<DLL.Models.User> userManager)
         {
+            _userManager = userManager;
             _context = context;
         }
 
         // GET: api/<AdminProductApiController>
         [HttpGet]
-        public async Task<IEnumerable<Product>> Get()
+        public async Task<IEnumerable<DLL.Models.Product>> Get()
         {
-            var rez= await _context.Products.ToListAsync();
+            var rez = await _context.Products.ToListAsync();
             return  rez;
         }
         // GET api/<AdminProductApiController>/5
@@ -38,16 +40,18 @@ namespace Store_Identity_API.Controllers
 
         // POST api/<AdminProductApiController>
         [HttpPost]
-        [Route("post")]
-        public  void Post([FromBody] Product value)
+        //[Route("post")]
+        [Authorize]
+        public async void Post([FromBody] DLL.Models.Product value)
         {
+          
             _context.Products.Add(value);
             _context.SaveChanges();
         }
 
         // PUT api/<AdminProductApiController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Product value)
+        public void Put(int id, [FromBody] DLL.Models.Product value)
         {
         }
 

@@ -1,53 +1,72 @@
+using BLL.Service;
+using DLL;
+using DLL.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Store_Identity_API.Context;
 using Store_Identity_API.Models;
+using DLL.Models;
 using System.Text;
+using Microsoft.Extensions.Options;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-try
+
+ConfigureService(builder.Services);
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
 {
-    ConfigureService(builder.Services);
-
-    var app = builder.Build();
-
-    // Configure the HTTP request pipeline.
-    if (!app.Environment.IsDevelopment())
-    {
-        app.UseExceptionHandler("/Home/Error");
-        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-        app.UseHsts();
-    }
-
-    app.UseHttpsRedirection();
-    app.UseStaticFiles();
-
-    app.UseRouting();
-
-    app.UseAuthorization();
-    app.UseAuthentication();
-
-    app.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
-
-    app.Run();
+    app.UseExceptionHandler("/Home/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
 }
-catch 
-{
-    
-}
+app.UseAuthentication();
+
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+
+app.UseAuthorization();
+
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.Run();
+
+
 void ConfigureService(IServiceCollection services)
 {
     services.AddControllersWithViews();
-    services.AddDbContext<Store_Identity_APIContext>(op => op.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionStore")));
+    services.AddDbContext<Store_Identity_APIContext>(op => {
+        op.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionStore"));
+        });
+    
     services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<Store_Identity_APIContext>().AddDefaultTokenProviders();
+    services.AddTransient<ProductRepository>();
+    services.AddTransient<ProductService>();
+    services.AddTransient<CardRepository>();
+    services.AddTransient<CardService>();
+
+    services.AddControllers().AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+
+        options.JsonSerializerOptions.WriteIndented = true; // Для удобного форматирования JSON
+    });
+
     services.AddAuthentication(op =>
     {
         op.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -55,7 +74,7 @@ void ConfigureService(IServiceCollection services)
         op.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 
     }
-    ).AddJwtBearer(op=>
+    ).AddJwtBearer(op =>
     {
         op.SaveToken = true;
         op.RequireHttpsMetadata = false;

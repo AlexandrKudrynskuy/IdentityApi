@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Store_Identity_API", "Store_Identity_API\Store_Identity_API.csproj", "{1E911A84-1824-4FFD-81A8-F2C89BAB7CEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store_Identity_API", "Store_Identity_API\Store_Identity_API.csproj", "{1E911A84-1824-4FFD-81A8-F2C89BAB7CEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "BLL\BLL.csproj", "{D4104101-38E1-417E-BF2D-F32B49712662}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLL", "DLL\DLL.csproj", "{F8B8F199-3095-4BF6-8E0F-958C48C158B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{1E911A84-1824-4FFD-81A8-F2C89BAB7CEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E911A84-1824-4FFD-81A8-F2C89BAB7CEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E911A84-1824-4FFD-81A8-F2C89BAB7CEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4104101-38E1-417E-BF2D-F32B49712662}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4104101-38E1-417E-BF2D-F32B49712662}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4104101-38E1-417E-BF2D-F32B49712662}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4104101-38E1-417E-BF2D-F32B49712662}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8B8F199-3095-4BF6-8E0F-958C48C158B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8B8F199-3095-4BF6-8E0F-958C48C158B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8B8F199-3095-4BF6-8E0F-958C48C158B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8B8F199-3095-4BF6-8E0F-958C48C158B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

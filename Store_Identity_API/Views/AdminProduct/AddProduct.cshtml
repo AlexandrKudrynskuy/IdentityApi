@@ -36,11 +36,11 @@
                     }
                     $.ajax({
                         type: "POST",
-                        url: "/Api/AdminProductApi/post",
+                        url: "/Api/AdminProductApi",
                         data: JSON.stringify(Product),
                         contentType: "application/json;",
                         headers: {
-                            "Authorization": "Bearer" + token
+                            "Authorization": "Bearer " + token
                         },
                         success: function (result, status, xhr) {
                             alert("Ok");

@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.IdentityModel.JsonWebTokens;
-using Store_Identity_API.Context;
 using Store_Identity_API.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -18,10 +17,10 @@ namespace Store_Identity_API.Controllers
     public class AutoritationApiController : ControllerBase
     {
         private readonly RoleManager<IdentityRole> _userRoles;
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<DLL.Models.User> _userManager;
         private readonly IConfiguration _configuration;
 
-        public AutoritationApiController(RoleManager<IdentityRole> userRoles, UserManager<User> userManager, IConfiguration configuration)
+        public AutoritationApiController(RoleManager<IdentityRole> userRoles, UserManager<DLL.Models.User> userManager, IConfiguration configuration)
         {
             _userRoles = userRoles;
             _userManager = userManager;
@@ -38,7 +37,7 @@ namespace Store_Identity_API.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response("Error", "User AlReady exist"));
             }
-            var user = new User
+            var user = new DLL.Models.User
             {
                 UserName = model.Name,
                 Email = model.Email,
@@ -71,8 +70,7 @@ namespace Store_Identity_API.Controllers
             }
             var userRole = await _userManager.GetRolesAsync(userExist);
             var authClaim = new List<Claim>{
-              new Claim(ClaimTypes.NameIdentifier, userExist.UserName),
-              new Claim(Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+              new Claim(ClaimTypes.NameIdentifier, userExist.UserName)
             };
 
             foreach (var role in userRole)
