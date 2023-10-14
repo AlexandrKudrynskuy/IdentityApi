@@ -1,4 +1,5 @@
-﻿using DLL.Models;
+﻿using BLL.Service;
+using DLL.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,53 +13,34 @@ namespace Store_Identity_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-
+    [Authorize]
     public class AdminProductApiController : ControllerBase
     {
-        private readonly DLL.Store_Identity_APIContext _context;
-        private readonly UserManager<DLL.Models.User> _userManager;
+        private readonly UserManager<User> _userManager;
+        private readonly ProductService _productService;
 
-        public AdminProductApiController(DLL.Store_Identity_APIContext context, UserManager<DLL.Models.User> userManager)
+        public AdminProductApiController(UserManager<User> userManager, ProductService productService)
         {
+
             _userManager = userManager;
-            _context = context;
+            _productService = productService;
         }
 
-        // GET: api/<AdminProductApiController>
-        [HttpGet]
-        public async Task<IEnumerable<DLL.Models.Product>> Get()
-        {
-            var rez = await _context.Products.ToListAsync();
-            return  rez;
-        }
-        // GET api/<AdminProductApiController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<AdminProductApiController>
         [HttpPost]
-        //[Route("post")]
-        [Authorize]
-        public async void Post([FromBody] DLL.Models.Product value)
+        //[Route("AddProduct")]
+        public IActionResult AddProduct([FromBody] Product value)
         {
-          
-            _context.Products.Add(value);
-            _context.SaveChanges();
+            try
+            {
+                _productService.Create(value);
+                return Ok();
+            }
+            catch(Exception ex)
+                {
+                return Problem(ex.Message);
+            }
+                
         }
 
-        // PUT api/<AdminProductApiController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] DLL.Models.Product value)
-        {
-        }
-
-        // DELETE api/<AdminProductApiController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

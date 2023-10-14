@@ -9,6 +9,6 @@ namespace DLL.Models
 {
     public class User:IdentityUser
     {
-        public List<Card> Cards { get; set; }
+        public List<Card> Cards { get; set; } = new List<Card>();
     }
 }

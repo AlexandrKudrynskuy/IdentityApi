@@ -1,0 +1,46 @@
+﻿<form>
+    <input type="text" id="Name" placeholder="Name" />
+    <input type="text" id="Photo" placeholder="Photo" />
+    <input type="button" value="Додати" id="Add" />
+
+
+</form>
+<script>
+    $(document).ready(function () {
+        $("#Add").click(function () {
+            var token = localStorage.getItem("jwt");
+            
+            if (token) {
+
+                var data = {
+                    Name: $("#Name").val(),
+                    Photo: $("#Photo").val(),
+
+                };
+                debugger
+                $.ajax({
+                    type: "Post",
+                    url: "/Api/AdminBrandApi/AddBrand",
+                    data: JSON.stringify(data),
+                    contentType: "application/json;",
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    },
+                    success: function (product, status, xhr) {
+                        alert(xhr.status);
+                    },
+                    error: function (xhr, status, error) {
+                        alert(xhr.status);
+                    }
+
+                });
+            }
+
+            else {
+                alert("авторизуйтесь");
+            }
+
+        });
+    });
+
+</script>

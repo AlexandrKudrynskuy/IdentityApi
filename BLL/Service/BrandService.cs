@@ -9,53 +9,52 @@ using System.Threading.Tasks;
 
 namespace BLL.Service
 {
-    public class CardService
+    public class BrandService
     {
-        private readonly CardRepository _repository;
+        private readonly BrandRepository _repository;
 
-        public CardService(CardRepository repository)
+        public BrandService(BrandRepository repository)
         {
             _repository = repository;
         }
 
-        public async void CreateAsync(Card card)
+        public async void CreateAsync(Brand brand)
         {
 
-            await Task.Run(() => { _repository.CreateAsync(card); });
+            await Task.Run(() => { _repository.CreateAsync(brand); });
         }
         public async void DeleteAsync(int id)
         {
             _repository.DeleteAsync(id);
         }
-        public async void UpdateAsync(int id, Card card)
+        public async void UpdateAsync(int id, Brand brand)
         {
-            _repository.UpdateAsync(id, card);
+            _repository.UpdateAsync(id, brand);
         }
-        public async Task<IEnumerable<Card>> GetFromConditionAsync(Expression<Func<Card, bool>> condition)
+        public async Task<IEnumerable<Brand>> GetFromConditionAsync(Expression<Func<Brand, bool>> condition)
         {
             return await _repository.GetFromConditionAsync(condition);
         }
 
 
 
-        public void Create(Card card)
+        public void Create(Brand brand)
         {
 
-            _repository.Create(card);
+            _repository.Create(brand);
 
         }
         public void Delete(int id)
         {
             _repository.Delete(id);
         }
-        public void Update(int id, Card card)
+        public void Update(int id, Brand brand)
         {
-            _repository.Update(id, card);
+            _repository.Update(id, brand);
         }
-        public IEnumerable<Card> GetFromCondition(Expression<Func<Card, bool>> condition)
+        public IEnumerable<Brand> GetFromCondition(Expression<Func<Brand, bool>> condition)
         {
             return _repository.GetFromCondition(condition);
         }
-
     }
 }

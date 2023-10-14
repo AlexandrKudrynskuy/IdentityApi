@@ -1,0 +1,90 @@
+﻿<div class="row"></div>
+
+<script>
+    $().ready(function () {
+        var token = localStorage.getItem("jwt");
+
+        if (token) {
+
+            $.ajax({
+                type: "Get",
+                url: "/Api/CardApi/GetProduct",
+                dataType: 'json',
+                headers: {
+                    "Authorization": "Bearer " + token
+                },
+                success: function (product, status, xhr) {
+                    // debugger
+                    // for (var item of product) {
+                    //     console.log(item.product["brand"].name);
+                    // }
+
+                    for (var pr of product) {
+                        var html = "<div class=\"col-12 col-md-3 \">\n        <div class=\"card\">\n            <div class=\"card-body\">\n            <h5 class=\"card-title\"> Категорія " + pr.product["category"].name + "</p>\n  <h5 class=\"card-title\"> Бренд " + pr.product["brand"].name + "</p>\n      <h5 class=\"card-title\"> Модель" + pr.product["name"] + "</p>\n                <p> Ціна " + pr.product["price"] + " </p>\n                <p> Стара ціна" + pr.product["oldPrice"] + "</p>\n                <img src=" + pr.product["photo"] + " class=\"card- img - top\" style=\"height: 20vh\">\n   <p class=\"Count\"> Залишилось " + pr.product["count"] + "</p>\n      <p> <input type=\"button\" class=\"bye\" value=\"Купити\" tag=" + pr.id + "></p>\n <p> <input type=\"button\" class=\"remove\" value=\"видалити з корзини\" tag=" + pr.id + "></p>\n         </div>\n        </div>\n    </div>"
+                        $(".row").append(html);
+                    }
+
+                    $(".remove").click(function () {
+
+                        var id = $(this).attr("tag");
+                        $.ajax({
+                            type: "Post",
+                            url: "/Api/CardApi/Remove",
+                            data: JSON.stringify(id),
+                            contentType: "application/json;",
+                            headers: {
+                                "Authorization": "Bearer " + token
+                            },
+                            success: function (product, status, xhr) {
+                                alert(xhr.status);
+                                location.reload();
+
+                            },
+                            error: function (xhr, status, error) {
+                                alert(xhr.status);
+                            }
+
+                        });
+
+                    });
+
+
+                    $(".bye").click(function () {
+
+
+                        var id = $(this).attr("tag");
+
+                        $.ajax({
+                            type: "Post",
+                            url: "/Api/CardApi/Bye",
+                            data: JSON.stringify(id),
+                            contentType: "application/json;",
+                            headers: {
+                                "Authorization": "Bearer " + token
+                            },
+                            success: function (product, status, xhr) {
+                                alert(xhr.status);
+                                location.reload();
+
+                            },
+                            error: function (xhr, status, error) {
+                                alert(xhr.status);
+                            }
+
+                        });
+
+                    });
+
+                },
+
+                error: function (xhr, status, error) {
+                    alert("Prob");
+
+                }
+
+            });
+
+        }
+ 
+    });
+</script>

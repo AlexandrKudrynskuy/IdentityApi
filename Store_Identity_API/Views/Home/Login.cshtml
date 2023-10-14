@@ -43,6 +43,7 @@
                     success: function (result, status, xhr) {
                         alert("Ok");
                         localStorage.setItem("jwt", result.token);
+                        location.replace("/Product/GetAll")
                     },
 
                     error: function (xhr, status, error) {

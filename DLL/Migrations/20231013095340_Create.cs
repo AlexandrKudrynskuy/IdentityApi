@@ -33,7 +33,7 @@ namespace DLL.Migrations
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -189,8 +189,8 @@ namespace DLL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    OldPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    Price = table.Column<double>(type: "float", nullable: false),
+                    OldPrice = table.Column<double>(type: "float", nullable: false),
                     Count = table.Column<int>(type: "int", nullable: false),
                     Photo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BrandId = table.Column<int>(type: "int", nullable: false),
@@ -219,6 +219,7 @@ namespace DLL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    StatusPaid = table.Column<bool>(type: "bit", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -265,22 +266,22 @@ namespace DLL.Migrations
                 columns: new[] { "Id", "BrandId", "CategoryId", "Count", "Name", "OldPrice", "Photo", "Price" },
                 values: new object[,]
                 {
-                    { 1, 1, 2, 0, "L1", null, "https://klike.net/uploads/posts/2020-04/1586244741_1.jpg", 22200m },
-                    { 2, 2, 2, 8, "L2", null, "https://klike.net/uploads/posts/2020-04/1586244779_2.jpg", 34400m },
-                    { 3, 3, 2, 3, "L3", null, "https://klike.net/uploads/posts/2020-04/1586244761_4.jpg", 12200m },
-                    { 4, 2, 2, 1, "L4", null, "https://klike.net/uploads/posts/2020-04/1586244770_7.jpg", 15600m },
-                    { 5, 1, 1, 3, "P4", null, "https://tech-choice.net/wp-content/uploads/2019/09/mfu-dlja-pechati-foto-620x330.jpg", 15600m },
-                    { 6, 3, 1, 8, "P4", null, "https://cdn.27.ua/799/1f/3c/7996_2.jpeg", 15600m },
-                    { 7, 2, 1, 3, "P4", null, "https://images.prom.ua/2937801366_mfu-a4-epson.jpg", 15600m },
-                    { 8, 1, 1, 5, "P4", null, "https://images.prom.ua/2800565290_w640_h640_polnoe-reshenie-mfu.jpg", 15600m },
-                    { 9, 1, 3, 3, "D1", null, "https://img.freepik.com/free-photo/computer_1205-717.jpg?1", 4560m },
-                    { 10, 2, 3, 1, "D2", null, "https://cdn.fotosklad.ru/unsafe/73e5a00a41ff440c925b9b1a460df709/image.jpg", 4860m },
-                    { 11, 3, 3, 2, "D3", null, "https://st.depositphotos.com/1035837/1386/i/600/depositphotos_13861529-stock-photo-monitor.jpg", 4960m },
-                    { 12, 1, 3, 3, "D4", null, "https://images.unian.net/photos/2022_07/thumb_files/400_0_1656777669-2895.jpg?r=799803", 4560m },
-                    { 13, 1, 4, 3, "S4", null, "https://st2.depositphotos.com/1001877/5970/i/950/depositphotos_59701653-stock-photo-group-of-audio-speakers-loudspeakers.jpg", 560m },
-                    { 14, 2, 4, 5, "S4", null, "https://assets.simant.com.ua/images/products/bigest/2559.jpg", 230m },
-                    { 15, 3, 4, 2, "S4", null, "https://assets.simant.com.ua/images/products/bigest/2668.jpg", 660m },
-                    { 16, 3, 4, 1, "S4", null, "https://assets.simant.com.ua/images/products/bigest/2614.jpg", 860m }
+                    { 1, 1, 2, 0, "L1", 0.0, "https://klike.net/uploads/posts/2020-04/1586244741_1.jpg", 22200.0 },
+                    { 2, 2, 2, 8, "L2", 0.0, "https://klike.net/uploads/posts/2020-04/1586244779_2.jpg", 34400.0 },
+                    { 3, 3, 2, 3, "L3", 0.0, "https://klike.net/uploads/posts/2020-04/1586244761_4.jpg", 12200.0 },
+                    { 4, 2, 2, 1, "L4", 0.0, "https://klike.net/uploads/posts/2020-04/1586244770_7.jpg", 15600.0 },
+                    { 5, 1, 1, 3, "P4", 0.0, "https://content2.rozetka.com.ua/goods/images/big/327438507.png", 15600.0 },
+                    { 6, 3, 1, 8, "P4", 0.0, "https://cdn.27.ua/799/1f/3c/7996_2.jpeg", 15600.0 },
+                    { 7, 2, 1, 3, "P4", 0.0, "https://images.prom.ua/2937801366_mfu-a4-epson.jpg", 15600.0 },
+                    { 8, 1, 1, 5, "P4", 0.0, "https://images.prom.ua/2800565290_w640_h640_polnoe-reshenie-mfu.jpg", 15600.0 },
+                    { 9, 1, 3, 3, "D1", 0.0, "https://img.freepik.com/free-photo/computer_1205-717.jpg?1", 4560.0 },
+                    { 10, 2, 3, 1, "D2", 0.0, "https://st.depositphotos.com/1035837/1386/i/600/depositphotos_13861529-stock-photo-monitor.jpg", 4860.0 },
+                    { 11, 3, 3, 2, "D3", 0.0, "https://st.depositphotos.com/1035837/1386/i/600/depositphotos_13861529-stock-photo-monitor.jpg", 4960.0 },
+                    { 12, 1, 3, 3, "D4", 0.0, "https://images.unian.net/photos/2022_07/thumb_files/400_0_1656777669-2895.jpg?r=799803", 4560.0 },
+                    { 13, 1, 4, 3, "S4", 0.0, "https://st2.depositphotos.com/1001877/5970/i/950/depositphotos_59701653-stock-photo-group-of-audio-speakers-loudspeakers.jpg", 560.0 },
+                    { 14, 2, 4, 5, "S4", 0.0, "https://assets.simant.com.ua/images/products/bigest/2559.jpg", 230.0 },
+                    { 15, 3, 4, 2, "S4", 0.0, "https://assets.simant.com.ua/images/products/bigest/2668.jpg", 660.0 },
+                    { 16, 3, 4, 1, "S4", 0.0, "https://assets.simant.com.ua/images/products/bigest/2614.jpg", 860.0 }
                 });
 
             migrationBuilder.CreateIndex(

@@ -13,5 +13,10 @@ namespace DLL.Repository
         void UpdateAsync(int id,T entity);
         void DeleteAsync(int id);
        Task<IEnumerable<T>> GetFromConditionAsync(Expression<Func <T,bool>> condition);
+
+        void Create(T entity);
+        void Update(int id, T entity);
+        void Delete(int id);
+        IEnumerable<T> GetFromCondition(Expression<Func<T, bool>> condition);
     }
 }

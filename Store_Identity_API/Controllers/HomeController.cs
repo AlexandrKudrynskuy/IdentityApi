@@ -26,7 +26,7 @@ namespace Store_Identity_API.Controllers
         {
             return View();
         }
-
+   
 
 
         public IActionResult Privacy()

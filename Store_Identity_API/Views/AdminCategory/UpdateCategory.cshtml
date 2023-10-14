@@ -1,0 +1,99 @@
+﻿<form>
+    <select id="Name"></select>
+    <input type="text" id="NewName" placeholder="Нове імя" />
+
+    <input type="text" id="Photo" placeholder="Photo" />
+    <img id="imgPath" style="width:100px" src="" />
+
+    <input type="button" value="Зберегти зміни" id="Save" />
+</form>
+
+<script>
+
+    $(document).ready(function () {
+        var token = localStorage.getItem("jwt");
+        if (token) {
+            $("#Name").on("change", GetPhoto);
+
+            $("#Save").on("click", function () {
+                var newBrand = {
+                    Id: $("#Name").val(),
+                    Name: $("#NewName").val(),
+                    Photo: $("#Photo").val()
+                };
+                $.ajax({
+
+                    type: "POST",
+                    url: "/Api/AdminCategoryApi/UpdateCategory",
+                    data: JSON.stringify(newBrand),
+                    contentType: "application/json;",
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    },
+
+                    success: function (brand, status, xhr) {
+                        alert("update");
+                        location.reload();
+                    },
+                    error: function (xhr, status, error) {
+                        alert("Problen");
+                    }
+
+                })
+            });
+
+
+            function GetPhoto() {
+                var id = $("#Name").val();
+
+                $.ajax({
+                    type: "Post",
+                    url: "/Api/AdminCategoryApi/GetPhoto",
+                    data: JSON.stringify(id),
+                    contentType: "application/json;",
+
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    },
+
+                    success: function (brand, status, xhr) {
+                        $("#Photo").val(brand);
+                        var ph = $("#Name option:selected").attr("tag");
+                        $("#NewName").val(ph);
+
+                        $("#imgPath").attr('src', $("#Photo").val());
+
+                    },
+                    error: function (xhr, status, error) {
+                        alert("Problen");
+                    }
+
+                })
+
+            }
+
+            $.ajax({
+                type: "GET",
+                url: "/Api/AdminCategoryApi/GetCategory",
+                headers: {
+                    "Authorization": "Bearer " + token
+                },
+
+                success: function (brand, status, xhr) {
+
+                    for (var op of brand) {
+                        var htmlBrand = "<option value=" + op.id + " tag=" + op.name + ">" + op.name + "</option >";
+                        $("#Name").append(htmlBrand);
+                    }
+                    GetPhoto();
+                },
+                error: function (xhr, status, error) {
+                    alert("Problen");
+                }
+            });
+        }
+        else {
+            alert("Автоизуйтесь");
+        }
+    });
+</script>

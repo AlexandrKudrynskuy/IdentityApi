@@ -58,6 +58,12 @@ void ConfigureService(IServiceCollection services)
     services.AddTransient<ProductService>();
     services.AddTransient<CardRepository>();
     services.AddTransient<CardService>();
+    services.AddTransient<BrandRepository>();
+    services.AddTransient<BrandService>();
+    services.AddTransient<CategoryRepository>();
+    services.AddTransient<CategoryService>();
+
+
 
     services.AddControllers().AddJsonOptions(options =>
     {

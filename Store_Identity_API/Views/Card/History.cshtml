@@ -1,0 +1,31 @@
+﻿<div class="row"></div>
+<script>
+    $().ready(function () {
+        var token = localStorage.getItem("jwt");
+
+        if (token) {
+            $.ajax({
+                type: "Get",
+                url: "/Api/CardApi/History",
+                dataType: 'json',
+                headers: {
+                    "Authorization": "Bearer " + token
+                },
+                success: function (product, status, xhr) {
+
+                    for (var pr of product) {
+                        var html = "<div class=\"col-12 col-md-3 \">\n        <div class=\"card\">\n            <div class=\"card-body\">\n            <h5 class=\"card-title\"> Категорія " + pr.product["category"].name + "</p>\n  <h5 class=\"card-title\"> Бренд " + pr.product["brand"].name + "</p>\n      <h5 class=\"card-title\"> Модель" + pr.product["name"] + "</p>\n                <p> Ціна " + pr.product["price"] + " </p>\n                <p> Стара ціна" + pr.product["oldPrice"] + "</p>\n                <img src=" + pr.product["photo"] + " class=\"card- img - top\" style=\"height: 20vh\">\n           </div>\n        </div>\n    </div>"
+                        $(".row").append(html);
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    alert("Prob");
+                }
+                });
+        }
+        else {
+            alert("Авторизуйтесь");
+        }
+    });
+</script>

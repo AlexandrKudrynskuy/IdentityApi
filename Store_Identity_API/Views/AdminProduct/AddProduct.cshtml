@@ -12,10 +12,15 @@
 <body>
     <form>
         <input type="text" placeholder="Назва продукту" id="Name" />
-        <input type="text" placeholder="Бренд" id="Brand" />
-        <input type="text" placeholder="Категорія" id="Category" />
+        <select placeholder="Бренд" id="Brand"></select>
+        <select placeholder="Категорія" id="Category"></select>
         <input type="text" placeholder="Ціна" id="Price" />
-    
+        <input type="text" placeholder="Стара ціна" id="OldPrice" />
+        <input type="text" placeholder="фото" id="Photo" />
+        <input type="text" placeholder="кількість" id="Count" />
+
+
+
 
         <input type="submit" value="Додати продукт" id="Add" />
 
@@ -23,21 +28,67 @@
     <div id="Responce"></div>
     <script>
         $().ready(function () {
-   
-            $("#Add").click(function (e) {
-                var token = localStorage.getItem("jwt");
-                if (token) {
-                    e.preventDefault();
-                    var Product = {
-                        Name: $("#Name").val(),
-                        Brand: $("#Brand").val(),
-                        Category: $("#Category").val(),
-                        Price: $("#Price").val(),
+            var token = localStorage.getItem("jwt");
+            if (token) {
+
+                $.ajax({
+                    type: "Get",
+                    url: "/Api/BrandApi/GetBrand",
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    },
+                    success: function (result, status, xhr) {
+                        
+                        for (var op of result) 
+                        {
+                            var htmlBrand = "<option value=" + op.id + ">" + op.name + "</option >";
+                            $("#Brand").append(htmlBrand);
+                           
+                        }
+                    },
+
+                    error: function (xhr, status, error) {
+                        alert(xhr.status);
                     }
+                });
+
+                $.ajax({
+                    type: "Get",
+                    url: "/Api/CategoryApi/GetCategory",
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    },
+                    success: function (result, status, xhr) {
+                        for (var op of result) {
+                            var htmlCategoty = "<option value="+op.id+">" + op.name + "</option >";
+                            $("#Category").append(htmlCategoty);
+
+                        }
+                    },
+
+                    error: function (xhr, status, error) {
+                        alert(xhr.status);
+                    }
+                });
+
+
+
+                $("#Add").click(function (e) {
+                  e.preventDefault();
+                    var newProduct = {
+                        Name: $("#Name").val(),
+                        BrandId: $("#Brand").val(),
+                        CategoryId: $("#Category").val(),
+                        Price: $("#Price").val(),
+                        OldPrice: $("#OldPrice").val(),
+                        Photo: $("#Photo").val(),
+                        Count: $("#Count").val(),
+                    }
+                    debugger
                     $.ajax({
                         type: "POST",
                         url: "/Api/AdminProductApi",
-                        data: JSON.stringify(Product),
+                        data: JSON.stringify(newProduct),
                         contentType: "application/json;",
                         headers: {
                             "Authorization": "Bearer " + token
@@ -49,14 +100,13 @@
                         error: function (xhr, status, error) {
                             alert(xhr.status);
                         }
-
                     });
-                }
-                else { 
-                    alert("Додавати продукти може тільки адмін");
-                }
-            });
 
+                });
+            }
+            else {
+                alert("Додавати продукти може тільки адмін");
+            }
         });
     </script>
 </body>

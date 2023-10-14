@@ -35,5 +35,25 @@ namespace BLL.Service
         { 
             return await _repository.GetFromConditionAsync(condition);
         }
+
+
+
+        public  void Create(Product product)
+        {
+            _repository.Create(product);
+        }
+        public  void Delete(int id)
+        {
+            _repository.Delete(id);
+        }
+        public async void Update(int id, Product product)
+        {
+            _repository.Update(id, product);
+        }
+        public  Task<IEnumerable<Product>> GetFromCondition(Expression<Func<Product, bool>> condition)
+        {
+            return  _repository.GetFromConditionAsync(condition);
+        }
+
     }
 }

@@ -1,0 +1,30 @@
+﻿<span id="count"></span>
+<script>
+        $().ready(function () {
+            var token = localStorage.getItem("jwt");
+
+            if (token) {
+                $.ajax({
+                    type: "Get",
+                url: "/Api/CardApi/GetCountProduct",
+                    dataType: 'json',
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    },
+                    success: function (count, status, xhr) {
+                        $("#count").append(count);
+                    },
+
+                    error: function (xhr, status, error) {
+                        alert("Prob");
+
+                    }
+
+                });
+
+            }
+
+            
+
+        });
+</script>

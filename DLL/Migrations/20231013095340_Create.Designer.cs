@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DLL.Migrations
 {
     [DbContext(typeof(Store_Identity_APIContext))]
-    [Migration("20231010162437_CardStatus")]
-    partial class CardStatus
+    [Migration("20231013095340_Create")]
+    partial class Create
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -160,15 +160,15 @@ namespace DLL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal?>("OldPrice")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("OldPrice")
+                        .HasColumnType("float");
 
                     b.Property<string>("Photo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 
@@ -186,8 +186,9 @@ namespace DLL.Migrations
                             CategoryId = 2,
                             Count = 0,
                             Name = "L1",
+                            OldPrice = 0.0,
                             Photo = "https://klike.net/uploads/posts/2020-04/1586244741_1.jpg",
-                            Price = 22200m
+                            Price = 22200.0
                         },
                         new
                         {
@@ -196,8 +197,9 @@ namespace DLL.Migrations
                             CategoryId = 2,
                             Count = 8,
                             Name = "L2",
+                            OldPrice = 0.0,
                             Photo = "https://klike.net/uploads/posts/2020-04/1586244779_2.jpg",
-                            Price = 34400m
+                            Price = 34400.0
                         },
                         new
                         {
@@ -206,8 +208,9 @@ namespace DLL.Migrations
                             CategoryId = 2,
                             Count = 3,
                             Name = "L3",
+                            OldPrice = 0.0,
                             Photo = "https://klike.net/uploads/posts/2020-04/1586244761_4.jpg",
-                            Price = 12200m
+                            Price = 12200.0
                         },
                         new
                         {
@@ -216,8 +219,9 @@ namespace DLL.Migrations
                             CategoryId = 2,
                             Count = 1,
                             Name = "L4",
+                            OldPrice = 0.0,
                             Photo = "https://klike.net/uploads/posts/2020-04/1586244770_7.jpg",
-                            Price = 15600m
+                            Price = 15600.0
                         },
                         new
                         {
@@ -226,8 +230,9 @@ namespace DLL.Migrations
                             CategoryId = 1,
                             Count = 3,
                             Name = "P4",
+                            OldPrice = 0.0,
                             Photo = "https://content2.rozetka.com.ua/goods/images/big/327438507.png",
-                            Price = 15600m
+                            Price = 15600.0
                         },
                         new
                         {
@@ -236,8 +241,9 @@ namespace DLL.Migrations
                             CategoryId = 1,
                             Count = 8,
                             Name = "P4",
+                            OldPrice = 0.0,
                             Photo = "https://cdn.27.ua/799/1f/3c/7996_2.jpeg",
-                            Price = 15600m
+                            Price = 15600.0
                         },
                         new
                         {
@@ -246,8 +252,9 @@ namespace DLL.Migrations
                             CategoryId = 1,
                             Count = 3,
                             Name = "P4",
+                            OldPrice = 0.0,
                             Photo = "https://images.prom.ua/2937801366_mfu-a4-epson.jpg",
-                            Price = 15600m
+                            Price = 15600.0
                         },
                         new
                         {
@@ -256,8 +263,9 @@ namespace DLL.Migrations
                             CategoryId = 1,
                             Count = 5,
                             Name = "P4",
+                            OldPrice = 0.0,
                             Photo = "https://images.prom.ua/2800565290_w640_h640_polnoe-reshenie-mfu.jpg",
-                            Price = 15600m
+                            Price = 15600.0
                         },
                         new
                         {
@@ -266,8 +274,9 @@ namespace DLL.Migrations
                             CategoryId = 3,
                             Count = 3,
                             Name = "D1",
+                            OldPrice = 0.0,
                             Photo = "https://img.freepik.com/free-photo/computer_1205-717.jpg?1",
-                            Price = 4560m
+                            Price = 4560.0
                         },
                         new
                         {
@@ -276,8 +285,9 @@ namespace DLL.Migrations
                             CategoryId = 3,
                             Count = 1,
                             Name = "D2",
+                            OldPrice = 0.0,
                             Photo = "https://st.depositphotos.com/1035837/1386/i/600/depositphotos_13861529-stock-photo-monitor.jpg",
-                            Price = 4860m
+                            Price = 4860.0
                         },
                         new
                         {
@@ -286,8 +296,9 @@ namespace DLL.Migrations
                             CategoryId = 3,
                             Count = 2,
                             Name = "D3",
+                            OldPrice = 0.0,
                             Photo = "https://st.depositphotos.com/1035837/1386/i/600/depositphotos_13861529-stock-photo-monitor.jpg",
-                            Price = 4960m
+                            Price = 4960.0
                         },
                         new
                         {
@@ -296,8 +307,9 @@ namespace DLL.Migrations
                             CategoryId = 3,
                             Count = 3,
                             Name = "D4",
+                            OldPrice = 0.0,
                             Photo = "https://images.unian.net/photos/2022_07/thumb_files/400_0_1656777669-2895.jpg?r=799803",
-                            Price = 4560m
+                            Price = 4560.0
                         },
                         new
                         {
@@ -306,8 +318,9 @@ namespace DLL.Migrations
                             CategoryId = 4,
                             Count = 3,
                             Name = "S4",
+                            OldPrice = 0.0,
                             Photo = "https://st2.depositphotos.com/1001877/5970/i/950/depositphotos_59701653-stock-photo-group-of-audio-speakers-loudspeakers.jpg",
-                            Price = 560m
+                            Price = 560.0
                         },
                         new
                         {
@@ -316,8 +329,9 @@ namespace DLL.Migrations
                             CategoryId = 4,
                             Count = 5,
                             Name = "S4",
+                            OldPrice = 0.0,
                             Photo = "https://assets.simant.com.ua/images/products/bigest/2559.jpg",
-                            Price = 230m
+                            Price = 230.0
                         },
                         new
                         {
@@ -326,8 +340,9 @@ namespace DLL.Migrations
                             CategoryId = 4,
                             Count = 2,
                             Name = "S4",
+                            OldPrice = 0.0,
                             Photo = "https://assets.simant.com.ua/images/products/bigest/2668.jpg",
-                            Price = 660m
+                            Price = 660.0
                         },
                         new
                         {
@@ -336,8 +351,9 @@ namespace DLL.Migrations
                             CategoryId = 4,
                             Count = 1,
                             Name = "S4",
+                            OldPrice = 0.0,
                             Photo = "https://assets.simant.com.ua/images/products/bigest/2614.jpg",
-                            Price = 860m
+                            Price = 860.0
                         });
                 });
 
