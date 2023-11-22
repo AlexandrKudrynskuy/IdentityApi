@@ -1,4 +1,4 @@
-﻿{
+{
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
@@ -14,14 +14,22 @@
       "launchBrowser": true,
       "applicationUrl": "https://localhost:7281;http://localhost:5049",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Production",
+        "VaultUri": "https://storeidentityapivault.vault.azure.net/",
+        "AZURE_USERNAME": "Babi_b6yt@student.itstep.org",
+        "VaultUriNew": "https://storeidentityapivault.vault.azure.net/",
+        "AlexKeyValue": "https://storeidentityapivault.vault.azure.net/"
       }
     },
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Production",
+        "VaultUri": "https://storeidentityapivault.vault.azure.net/",
+        "AZURE_USERNAME": "Babi_b6yt@student.itstep.org",
+        "VaultUriNew": "https://storeidentityapivault.vault.azure.net/",
+        "AlexKeyValue": "https://storeidentityapivault.vault.azure.net/"
       }
     }
   }

@@ -12,6 +12,5 @@ namespace DLL.Models
         public string Name { get; set; }   
         public string Photo { get; set; }
         public List<Product> Products { get; set; }=new List<Product>();
-
     }
 }

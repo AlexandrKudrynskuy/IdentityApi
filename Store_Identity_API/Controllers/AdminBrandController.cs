@@ -6,7 +6,9 @@ namespace Store_Identity_API.Controllers
     {
         public IActionResult AddBrand()
         {
-            return View();
+            
+                return View();
+           
         }
 
         public IActionResult UpdateBrand()

@@ -11,13 +11,32 @@ using DLL.Models;
 using System.Text;
 using Microsoft.Extensions.Options;
 using System.Text.Json.Serialization;
+using Microsoft.ApplicationInsights.Metrics;
+using Azure.Identity;
+using System.Configuration;
+using DLL.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+var conStr2 ="";
 
+if (builder.Environment.IsDevelopment())
+{
+    conStr2 = builder.Configuration["ConnectionStore"];
+}
+else
+    if (builder.Environment.IsProduction())
+{
+    var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable("VaultUri"));
+    builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
+    conStr2 = builder.Configuration["CS"];
+}
 ConfigureService(builder.Services);
+builder.Services.AddApplicationInsightsTelemetry();
+
 
 var app = builder.Build();
 
@@ -49,10 +68,20 @@ app.Run();
 void ConfigureService(IServiceCollection services)
 {
     services.AddControllersWithViews();
-    services.AddDbContext<Store_Identity_APIContext>(op => {
-        op.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionStore"));
-        });
-    
+    //services.AddTransient<ApplicationDbContextFactory>();
+
+  //  services.AddDbContext<Store_Identity_APIContext>(
+  //options =>
+  //options.UseSqlServer(
+  //Configuration.GetConnectionString("conStr2"),
+  //x => x.MigrationsAssembly("WebApplication1.Migrations")));
+
+
+    services.AddDbContext<Store_Identity_APIContext>(
+        op => 
+        op.UseSqlServer()
+    );
+
     services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<Store_Identity_APIContext>().AddDefaultTokenProviders();
     services.AddTransient<ProductRepository>();
     services.AddTransient<ProductService>();

@@ -60,6 +60,8 @@ namespace Store_Identity_API.Controllers
         {
             try
             {
+                throw new Exception();
+
                 _BrandService.Create(brand);
                 return Ok();
             }
